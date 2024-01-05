@@ -1,0 +1,32 @@
+import re
+
+def chatbot(user):
+    
+    rules = {
+        'new products': 'women formal wear,men ethnic wear,festival and western wear for all type of categories.',
+        'customer review': 'Customers review to the new products was 4.3 out of 5 which includes excellent work in quality of the products ',
+        'offers and discounts': 'Flat 500 off purchase of 2000 and 2500 off on 15000 of shopping (NOTE:Offer valids only till Jan30',
+        'location': 'Our branches located in Secunderabad,Shamshabad,Banjara Hill,Mumbai,Banglore,Chennai',
+        'contact details': 'You can contact the Customer service at shoppingmall.com or call +91XXXXXXXXXX for further assistance.',
+        'bye': 'Thank you for chatting with us. If you have more questions, feel free to ask.Have a nice day!'
+    }
+
+    for pattern, response in rules.items():
+        if re.search(pattern, user, re.IGNORECASE):
+            return response
+
+    return "Sorry, I am unable to understand that. If you have specific questions about admission, feel free to ask."
+
+print("Chatbot: Hello I am Narendar! How can I assist you with your queries?\n" 
+"1.new products\n"
+"2.customer review\n"
+"3.offers&discounts\n"
+"4.location\n"
+"5.contact details")
+while True:
+    user = input("You: ").lower()
+    if user == 'bye':
+        print("Thank you for chatting with us. If you have more questions, feel free to ask.Have a nice day!")
+        break
+    response = chatbot(user)
+    print("Chatbot:", response)
