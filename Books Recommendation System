@@ -1,0 +1,33 @@
+import pandas as pd
+
+books = {
+    'Book1': {'Fiction': 1, 'Fantasy': 1, 'Mystery': 0, 'Thriller': 0},
+    'Book2': {'Fiction': 1, 'Fantasy': 1, 'Mystery': 0, 'Thriller': 1},
+    'Book3': {'Fiction': 1, 'Fantasy': 0, 'Mystery': 1, 'Thriller': 1},
+    'Book4': {'Fiction': 0, 'Fantasy': 1, 'Mystery': 1, 'Thriller': 0},
+    'Book5': {'Fiction': 0, 'Fantasy': 0, 'Mystery': 1, 'Thriller': 1}
+}
+
+def recommend_books(user_preferences, books):
+    user_pref_df = pd.DataFrame.from_dict(user_preferences, orient='index', columns=['Preference'])
+    book_scores = {}
+    for book, book_genre in books.items():
+        similarity = sum(user_pref_df['Preference'] * pd.Series(book_genre))
+        book_scores[book] = similarity
+    sorted_books = sorted(book_scores.items(), key=lambda x: x[1], reverse=True)
+    return sorted_books
+def get_user_preferences():
+    print("Please rate the following book genres from 1 to 5 (1 - least liked, 5 - most liked):")
+    user_preferences = {}
+    genres = ['Fiction', 'Fantasy', 'Mystery', 'Thriller']
+    for genre in genres:
+        rating = int(input("Rate {} genre: ".format(genre)))
+        user_preferences[genre] = rating
+    return user_preferences
+
+print("Welcome to the book recommendation system!")
+user_preferences = get_user_preferences()
+recommended_books = recommend_books(user_preferences, books)
+print("\nRecommended books for you: ")
+for book, score in recommended_books:
+    print("{} - Score: {}".format(book, score))
